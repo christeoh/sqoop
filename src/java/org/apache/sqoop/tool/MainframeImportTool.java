@@ -41,6 +41,7 @@ public class MainframeImportTool extends ImportTool {
   public static final String DS_TYPE_ARG = "datasettype";
   public static final String DS_TAPE_ARG = "tape";
   public static final String FTP_TRANSFER_MODE_ARG = "transfermode";
+  public static final String FTP_COMMANDS = "ftpcmds";
 
   public MainframeImportTool() {
     super("import-mainframe", false);
@@ -75,6 +76,10 @@ public class MainframeImportTool extends ImportTool {
     importOpts.addOption(OptionBuilder.withArgName("FTP transfer mode")
       .hasArg().withDescription("FTP transfer mode (ascii=ASCII|binary=BINARY")
       .withLongOpt(FTP_TRANSFER_MODE_ARG)
+      .create());
+    importOpts.addOption(OptionBuilder.withArgName("Comma separated FTP commands issued before FTP transfer")
+      .hasArg().withDescription("Additional FTP commands issued before transfer")
+      .withLongOpt(FTP_COMMANDS)
       .create());
     addValidationOpts(importOpts);
 
@@ -177,6 +182,9 @@ public class MainframeImportTool extends ImportTool {
     } else {
       // set default transfer mode to ascii
       out.setMainframeFtpTransferMode(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE_ASCII);
+    }
+    if (in.hasOption(FTP_COMMANDS)) {
+      out.setFtpCommands(in.getOptionValue(FTP_COMMANDS));
     }
   }
 

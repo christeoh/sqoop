@@ -388,4 +388,46 @@ public class TestMainframeFTPClientUtils {
     assertEquals(ftp.sendCommand("TYPE I"), EXPECTED_RESPONSE_CODE);
     assertEquals(ftp.getReplyString(),EXPECTED_RESPONSE);
   }
+
+  @Test
+  public void testFtpCommandsOneCommand() {
+    String inputString = "quote SITE RDW READTAPEFORMAT=V";
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds != null && cmds.length == 1);
+  }
+
+  @Test
+  public void testFtpCommandsOneCommandWithComma() {
+    String inputString = ",quote SITE RDW READTAPEFORMAT=V";
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds != null && cmds.length == 1);
+  }
+
+  @Test
+  public void testFtpCommandsOneCommandWithCommas() {
+    String inputString = ",quote SITE RDW READTAPEFORMAT=V,";
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds != null && cmds.length == 1);
+  }
+
+  @Test
+  public void testFtpCommandsTwoCommandWithComma() {
+    String inputString = "quote SITE RDW,quote SITE RDW READTAPEFORMAT=V";
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds != null && cmds.length == 2);
+  }
+
+  @Test
+  public void testFtpCommandsNullCommand() {
+    String inputString = null;
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds == null);
+  }
+
+  @Test
+  public void testFtpCommandsEmptyCommands() {
+    String inputString = ",,,";
+    String [] cmds = MainframeFTPClientUtils.parseFtpCommands(inputString);
+    assert(cmds == null);
+  }
 }

@@ -42,4 +42,6 @@ public class MainframeConfiguration
 
   // this is the buffer size used when doing binary ftp transfers from mainframe
   public static final Integer MAINFRAME_FTP_TRANSFER_BINARY_BUFFER = 32760;
+
+  public static final String MAINFRAME_FTP_CUSTOM_COMMANDS = "mainframe.ftp.commands";
 }

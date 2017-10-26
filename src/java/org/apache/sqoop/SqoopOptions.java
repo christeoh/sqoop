@@ -311,6 +311,9 @@ public class SqoopOptions implements Cloneable {
   // Indicates if binary or ascii FTP transfer mode should be used
   @StoredAsProperty("mainframe.ftp.transfermode")
   private String mainframeFtpTransferMode;
+  // custom FTP commands to be sent to mainframe
+  @StoredAsProperty("mainframe.ftp.commands")
+  private String customFtpCommands;
   // Accumulo home directory
   private String accumuloHome; // not serialized to metastore.
   // Zookeeper home directory
@@ -2427,6 +2430,16 @@ public class SqoopOptions implements Cloneable {
   // sets the FTP transfer mode
   public void setMainframeFtpTransferMode(String transferMode) {
     mainframeFtpTransferMode = transferMode;
+  }
+
+  // sets the custom FTP commands
+  public void setFtpCommands(String ftpCmds) {
+    customFtpCommands = ftpCmds;
+  }
+
+  // gets the custom FTP commands issued
+  public String getFtpCommands() {
+    return customFtpCommands;
   }
 
   public static String getAccumuloHomeDefault() {

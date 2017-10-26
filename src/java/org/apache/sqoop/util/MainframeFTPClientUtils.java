@@ -84,6 +84,9 @@ public final class MainframeFTPClientUtils {
       ftp = getFTPConnection(conf);
       if (ftp != null) {
         ftp.changeWorkingDirectory("'" + pdsName + "'");
+        if (conf.get(org.apache.sqoop.tool.BaseSqoopTool.TARGET_DIR_ARG) != null) {
+          LOG.info("Target HDFS directory: "+conf.get(org.apache.sqoop.tool.BaseSqoopTool.TARGET_DIR_ARG));
+        }
         FTPFile[] ftpFiles = null;
         if (!MainframeConfiguration.MAINFRAME_INPUT_DATASET_TYPE_PARTITIONED.equals(dsType)) {
           // excepting partitioned datasets, use the MainframeFTPFileEntryParser, default doesn't match larger datasets
@@ -220,6 +223,17 @@ public final class MainframeFTPClientUtils {
         LOG.info("Defaulting FTP transfer mode to ascii");
         ftp.setFileTransferMode(FTP.ASCII_FILE_TYPE);
       }
+      String ftpCmds = conf.get(MainframeConfiguration.MAINFRAME_FTP_CUSTOM_COMMANDS);
+      String[] ftpCmdList = parseFtpCommands(ftpCmds);
+      if (ftpCmdList != null) {
+        int len = ftpCmdList.length;
+        for (int i = 0; i < len; i++) {
+          LOG.info("Issuing command: "+ftpCmdList[i]);
+          int res = ftp.sendCommand(ftpCmdList[i]);
+          String result = ftp.getReplyString();
+          LOG.info("ReplyCode: "+res + " ReplyString: "+result);
+        }
+      }
       // Use passive mode as default.
       ftp.enterLocalPassiveMode();
       LOG.info("System type detected: " + ftp.getSystemType());
@@ -258,6 +272,26 @@ public final class MainframeFTPClientUtils {
       }
     }
     return success;
+  }
+
+  // splits out the concatenated FTP commands
+  public static String[] parseFtpCommands(String ftpCmds) {
+    if (ftpCmds != null && !ftpCmds.trim().equals("")) {
+      String [] ftpCmdList = ftpCmds.split(",");
+      ArrayList<String> cmds = new ArrayList<String>();
+      for (String cmd:ftpCmdList) {
+        // strip out empty commands
+        if (!cmd.trim().equals("")) {
+          cmds.add(cmd.trim());
+        }
+      }
+      if (cmds.size() != 0) {
+        return cmds.toArray(new String[cmds.size()]);
+      } else {
+        return null;
+      }
+    }
+    return null;
   }
 
   // Used for testing only

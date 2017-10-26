@@ -235,4 +235,17 @@ public class TestMainframeImportTool extends BaseSqoopTestCase {
     sqoopOption = mfImportTool.parseArguments(args, null, (SqoopOptions) sqoopOption, false);
     mfImportTool.validateImportOptions((SqoopOptions) sqoopOption);
   }
+
+  @Test
+  public void testFtpTransferCommands() throws ParseException, InvalidOptionsException {
+    String expectedCmds = "quote SITE RDW,quote SITE RDW READTAPEFORMAT=V";
+    String[] args = new String[] { "--dataset", "mydatasetname", "--ftpcmds", expectedCmds};
+    ToolOptions toolOptions = new ToolOptions();
+    SqoopOptions sqoopOption = new SqoopOptions();
+    mfImportTool.configureOptions(toolOptions);
+    sqoopOption = mfImportTool.parseArguments(args, null, sqoopOption, false);
+    mfImportTool.validateImportOptions(sqoopOption);
+    String ftpcmds = sqoopOption.getFtpCommands();
+    assert(ftpcmds.equals(expectedCmds));
+  }
 }

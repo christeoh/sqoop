@@ -73,6 +73,16 @@ public class MainframeImportJob extends DataDrivenImportJob {
     job.getConfiguration().set(
       MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE,
       options.getMainframeFtpTransferMode());
+    if (options.getFtpCommands() != null && !options.getFtpCommands().trim().equals("")) {
+      job.getConfiguration().set(
+        MainframeConfiguration.MAINFRAME_FTP_CUSTOM_COMMANDS,
+        options.getFtpCommands());
+    }
+    if (options.getTargetDir() != null) {
+      job.getConfiguration().set(
+        org.apache.sqoop.tool.BaseSqoopTool.TARGET_DIR_ARG,options.getTargetDir()
+      );
+    }
   }
 
   @Override
