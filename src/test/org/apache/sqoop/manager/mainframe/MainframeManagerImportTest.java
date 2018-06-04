@@ -52,10 +52,8 @@ import static org.junit.Assert.fail;
  * Can be run using -Dtestcase=MainframeManagerImportTest or -Dthirdparty=true.
  * To run tests:-
  * Start docker containers by running start-thirdpartytest-db-containers.sh
- * or start-thirdpartytest-mainframe-containers.sh
- * Run test using ant -Dtestcase=MainframeManagerImportTest or -Dthirdparty=true 
- * Clean up containers by running stop-thirdpartytest-db-containers.sh or
- * stop-thirdpartytest-mainframe-containers.sh
+ * Run test using ant test -Dtestcase=MainframeManagerImportTest or -Dthirdparty=true 
+ * Clean up containers by running stop-thirdpartytest-db-containers.sh
  * The following properties can be overridden from command line
  * by setting -D<property.name>=<value>:-
  * <property name="sqoop.test.mainframe.ftp.host" value="localhost" />
