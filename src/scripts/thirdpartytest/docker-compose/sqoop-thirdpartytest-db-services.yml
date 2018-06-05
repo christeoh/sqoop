@@ -112,7 +112,7 @@ services:
       timeout: 10s
       retries: 20
   mainframe:
-    image: cntroversycubed/sqoopgdg:d8bb1b04833545bbd80f57849dbcfa5ba9285072
+    image: cntroversycubed/sqoopgdg:afdf57b15d8e71eb77d24d606b77e185ef39ceb3
     container_name: sqoop_mainframe_gdg_container
     ports:
       - 2121:2121
