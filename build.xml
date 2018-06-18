@@ -897,9 +897,9 @@
       <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.gdg" value="${sqoop.test.mainframe.ftp.binary.dataset.gdg}" />
       <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.gdg.filename" value="${sqoop.test.mainframe.ftp.binary.dataset.gdg.filename}" />
       <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.gdg.md5" value="${sqoop.test.mainframe.ftp.binary.dataset.gdg.md5}" />
-      <sysproperty name="sqoop.test.mainframe.ftp.binary.dataset.seq" value="${sqoop.test.mainframe.ftp.binary.dataset.seq}" />
-      <sysproperty name="sqoop.test.mainframe.ftp.binary.dataset.seq.filename" value="${sqoop.test.mainframe.ftp.binary.dataset.seq.filename}" />
-      <sysproperty name="sqoop.test.mainframe.ftp.binary.dataset.seq.md5" value="${sqoop.test.mainframe.ftp.binary.dataset.seq.md5}" />
+      <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.seq" value="${sqoop.test.mainframe.ftp.binary.dataset.seq}" />
+      <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.seq.filename" value="${sqoop.test.mainframe.ftp.binary.dataset.seq.filename}" />
+      <sysproperty key="sqoop.test.mainframe.ftp.binary.dataset.seq.md5" value="${sqoop.test.mainframe.ftp.binary.dataset.seq.md5}" />
       <!-- Location of Hive logs -->
       <!--<sysproperty key="hive.log.dir"
                    value="${test.build.data}/sqoop/logs"/> -->
