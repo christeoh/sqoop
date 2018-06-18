@@ -50,4 +50,13 @@ public class MainframeTestUtil {
   public static final String EXPECTED_GDG_BINARY_DATASET_MD5 = System.getProperty(
       "sqoop.test.mainframe.ftp.binary.dataset.gdg.md5",
       "43eefbe34e466dd3f65a3e867a60809a");
+  public static final String SEQ_BINARY_DATASET_NAME = System.getProperty(
+      "sqoop.test.mainframe.ftp.binary.dataset.seq",
+      "TSODIQ1.GDGTEXT.G0001V43");
+  public static final String SEQ_BINARY_DATASET_FILENAME = System.getProperty(
+      "sqoop.test.mainframe.ftp.binary.dataset.seq.filename",
+      "G0001V43");
+  public static final String EXPECTED_SEQ_BINARY_DATASET_MD5 = System.getProperty(
+      "sqoop.test.mainframe.ftp.binary.dataset.seq.md5",
+      "f0d0d171fdb8a03dbc1266ed179d7093");
 }
