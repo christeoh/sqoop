@@ -31,16 +31,12 @@ import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
-import org.apache.sqoop.Sqoop;
 import org.apache.sqoop.mapreduce.hcat.SqoopHCatUtilities;
-
-
 import org.apache.sqoop.SqoopOptions;
 import org.apache.sqoop.config.ConfigurationHelper;
 import org.apache.sqoop.lib.LargeObjectLoader;
@@ -52,11 +48,7 @@ import org.apache.sqoop.mapreduce.db.DataDrivenDBInputFormat;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
 import org.apache.sqoop.orm.AvroSchemaGenerator;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.sqoop.mapreduce.mainframe.MainframeConfiguration;
 import org.apache.sqoop.mapreduce.mainframe.MainframeDatasetBinaryRecord;
-import org.apache.sqoop.util.FileSystemUtil;
-import org.kitesdk.data.Datasets;
-import org.kitesdk.data.mapreduce.DatasetKeyOutputFormat;
 
 import static org.apache.sqoop.mapreduce.parquet.ParquetConstants.SQOOP_PARQUET_AVRO_SCHEMA_KEY;
 
