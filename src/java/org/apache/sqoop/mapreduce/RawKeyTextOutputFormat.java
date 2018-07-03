@@ -30,7 +30,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.util.*;
-import org.apache.sqoop.mapreduce.mainframe.MainframeConfiguration;
 
 /**
  * An {@link OutputFormat} that writes plain text files.
