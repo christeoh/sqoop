@@ -24,8 +24,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.io.BytesWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.compress.CompressionCodec;
 import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -65,12 +63,6 @@ public class RawKeyTextOutputFormat<K, V> extends FileOutputFormat<K, V> {
       ostream = new DataOutputStream(codec.createOutputStream(fileOut));
     }
 
-    // if it is binary return KeyRecordWriters.BinaryKeyRecordWriter
-    // otherwise it will be plain text
-    String transferMode = conf.get(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE);
-    if (MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE_BINARY.equals(transferMode)) {
-      return new KeyRecordWriters.BinaryKeyRecordWriter<K,V>(ostream);
-    }
     return new KeyRecordWriters.RawKeyRecordWriter<K, V>(ostream);
   }
 
