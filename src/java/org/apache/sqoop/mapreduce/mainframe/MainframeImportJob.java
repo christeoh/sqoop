@@ -28,11 +28,13 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
 import org.apache.sqoop.SqoopOptions;
 import org.apache.sqoop.manager.ImportJobContext;
 import org.apache.sqoop.mapreduce.DBWritable;
 import org.apache.sqoop.mapreduce.DataDrivenImportJob;
+import org.apache.sqoop.mapreduce.RawKeyTextOutputFormat;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
 
 /**
@@ -119,5 +121,17 @@ public class MainframeImportJob extends DataDrivenImportJob {
       job.setOutputValueClass(NullWritable.class);
     }
     job.setMapperClass(getMapperClass());
+  }
+
+  @Override
+  protected Class<? extends OutputFormat> getOutputFormatClass()
+      throws ClassNotFoundException {
+    if (options.getFileLayout() == SqoopOptions.FileLayout.TextFile) {
+      return RawKeyTextOutputFormat.class;
+    } else if (options.getFileLayout()
+        == SqoopOptions.FileLayout.BinaryFile) {
+      return RawKeyTextOutputFormat.class;
+    }
+    return null;
   }
 }

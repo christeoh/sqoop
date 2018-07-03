@@ -187,9 +187,6 @@ public class DataDrivenImportJob extends ImportJobBase {
     } else if (options.getFileLayout()
         == SqoopOptions.FileLayout.ParquetFile) {
       return parquetImportJobConfigurator.getOutputFormatClass();
-    } else if (options.getFileLayout()
-        == SqoopOptions.FileLayout.BinaryFile) {
-      return RawKeyTextOutputFormat.class;
     }
 
     return null;
