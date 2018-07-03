@@ -35,6 +35,7 @@ import org.apache.sqoop.manager.ImportJobContext;
 import org.apache.sqoop.mapreduce.DBWritable;
 import org.apache.sqoop.mapreduce.DataDrivenImportJob;
 import org.apache.sqoop.mapreduce.RawKeyTextOutputFormat;
+import org.apache.sqoop.mapreduce.ByteKeyOutputFormat;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
 
 /**
@@ -130,7 +131,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
       return RawKeyTextOutputFormat.class;
     } else if (options.getFileLayout()
         == SqoopOptions.FileLayout.BinaryFile) {
-      return RawKeyTextOutputFormat.class;
+      return ByteKeyOutputFormat.class;
     }
     return null;
   }
