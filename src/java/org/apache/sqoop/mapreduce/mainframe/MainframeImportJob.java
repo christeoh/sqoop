@@ -20,19 +20,20 @@ package org.apache.sqoop.mapreduce.mainframe;
 
 import java.io.IOException;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.output.LazyOutputFormat;
-
 import org.apache.sqoop.SqoopOptions;
 import org.apache.sqoop.manager.ImportJobContext;
-
+import org.apache.sqoop.mapreduce.DBWritable;
 import org.apache.sqoop.mapreduce.DataDrivenImportJob;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
-import org.apache.sqoop.mapreduce.RawKeyTextOutputFormat;
 
 /**
  * Import data from a mainframe dataset, using MainframeDatasetInputFormat.
@@ -98,4 +99,25 @@ public class MainframeImportJob extends DataDrivenImportJob {
     LazyOutputFormat.setOutputFormatClass(job, getOutputFormatClass());
   }
 
+  @Override
+  protected void configureMapper(Job job, String tableName,
+      String tableClassName) throws IOException {
+    if (SqoopOptions.FileLayout.BinaryFile.equals(options.getFileLayout())) {
+      job.setOutputKeyClass(BytesWritable.class);
+      job.setOutputValueClass(NullWritable.class);
+
+      // this is required as code generated class assumes setField method takes String
+      // and will fail with ClassCastException when a byte array is passed instead
+      // java.lang.ClassCastException: [B cannot be cast to java.lang.String
+      Configuration conf = job.getConfiguration();
+      conf.setClass(org.apache.sqoop.mapreduce.db.DBConfiguration.INPUT_CLASS_PROPERTY, MainframeDatasetBinaryRecord.class,
+        DBWritable.class);
+    } else if (options.getFileLayout() == SqoopOptions.FileLayout.TextFile) {
+      // For text files, specify these as the output types; for
+      // other types, we just use the defaults.
+      job.setOutputKeyClass(Text.class);
+      job.setOutputValueClass(NullWritable.class);
+    }
+    job.setMapperClass(getMapperClass());
+  }
 }
