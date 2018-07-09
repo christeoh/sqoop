@@ -105,6 +105,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
   @Override
   protected void configureMapper(Job job, String tableName,
       String tableClassName) throws IOException {
+    super.configureMapper(job, tableName, tableClassName);
     if (SqoopOptions.FileLayout.BinaryFile.equals(options.getFileLayout())) {
       job.setOutputKeyClass(BytesWritable.class);
       job.setOutputValueClass(NullWritable.class);
@@ -115,13 +116,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
       Configuration conf = job.getConfiguration();
       conf.setClass(org.apache.sqoop.mapreduce.db.DBConfiguration.INPUT_CLASS_PROPERTY, MainframeDatasetBinaryRecord.class,
         DBWritable.class);
-    } else if (options.getFileLayout() == SqoopOptions.FileLayout.TextFile) {
-      // For text files, specify these as the output types; for
-      // other types, we just use the defaults.
-      job.setOutputKeyClass(Text.class);
-      job.setOutputValueClass(NullWritable.class);
     }
-    job.setMapperClass(getMapperClass());
   }
 
   @Override

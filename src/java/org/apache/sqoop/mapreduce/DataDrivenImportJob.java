@@ -47,9 +47,6 @@ import org.apache.sqoop.mapreduce.db.DBConfiguration;
 import org.apache.sqoop.mapreduce.db.DataDrivenDBInputFormat;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
 import org.apache.sqoop.orm.AvroSchemaGenerator;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.sqoop.mapreduce.mainframe.MainframeDatasetBinaryRecord;
-
 import static org.apache.sqoop.mapreduce.parquet.ParquetConstants.SQOOP_PARQUET_AVRO_SCHEMA_KEY;
 
 /**
