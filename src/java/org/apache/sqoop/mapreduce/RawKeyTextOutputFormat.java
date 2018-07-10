@@ -37,8 +37,15 @@ import org.apache.hadoop.util.*;
  */
 public class RawKeyTextOutputFormat<K, V> extends FileOutputFormat<K, V> {
 
-  public RecordWriter<K, V> getRecordWriter(TaskAttemptContext context)
-      throws IOException {
+  public FSDataOutputStream getFSDataOutputStream(TaskAttemptContext context, String ext) throws IOException {
+    Configuration conf = context.getConfiguration();
+    Path file = getDefaultWorkFile(context, ext);
+    FileSystem fs = file.getFileSystem(conf);
+    FSDataOutputStream fileOut = fs.create(file, false);
+    return fileOut;
+  }
+
+  public DataOutputStream getOutputStream(TaskAttemptContext context) throws IOException {
     boolean isCompressed = getCompressOutput(context);
     Configuration conf = context.getConfiguration();
     String ext = "";
@@ -53,17 +60,18 @@ public class RawKeyTextOutputFormat<K, V> extends FileOutputFormat<K, V> {
       ext = codec.getDefaultExtension();
     }
 
-    Path file = getDefaultWorkFile(context, ext);
-    FileSystem fs = file.getFileSystem(conf);
-    FSDataOutputStream fileOut = fs.create(file, false);
+    FSDataOutputStream fileOut = getFSDataOutputStream(context,ext);
     DataOutputStream ostream = fileOut;
 
     if (isCompressed) {
       ostream = new DataOutputStream(codec.createOutputStream(fileOut));
     }
-
-    return new KeyRecordWriters.RawKeyRecordWriter<K, V>(ostream);
+    return ostream;
   }
 
+  public RecordWriter<K, V> getRecordWriter(TaskAttemptContext context)
+      throws IOException {
+    DataOutputStream ostream = getOutputStream(context);
+    return new KeyRecordWriters.RawKeyRecordWriter<K, V>(ostream);
+  }
 }
-
