@@ -24,9 +24,7 @@ import static org.mockito.Mockito.mock;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.sqoop.mapreduce.parquet.ParquetImportJobConfigurator;
 import org.junit.Before;

@@ -22,7 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.BufferedInputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.sql.PreparedStatement;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
