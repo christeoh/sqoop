@@ -22,8 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.sqoop.cli.RelatedOptions;
 import org.apache.sqoop.mapreduce.mainframe.MainframeConfiguration;
 import org.junit.After;
@@ -44,9 +42,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestMainframeImportTool extends BaseSqoopTestCase {
-
-  private static final Log LOG = LogFactory.getLog(TestMainframeImportTool.class
-      .getName());
 
   private MainframeImportTool mfImportTool;
   private ToolOptions toolOptions;
@@ -191,19 +186,19 @@ public class TestMainframeImportTool extends BaseSqoopTestCase {
   }
 
   @Test
-  public void testFtpTransferModeAscii() throws ParseException, org.apache.sqoop.SqoopOptions.InvalidOptionsException {
+  public void testFtpTransferModeAscii() throws ParseException, InvalidOptionsException {
     String[] args = new String[] { "--dataset", "mydatasetname", "--as-textfile" };
     configureAndValidateOptions(args);
     assertEquals(SqoopOptions.FileLayout.TextFile,sqoopOption.getFileLayout());
   }
   @Test
-  public void testFtpTransferModeBinary() throws ParseException, org.apache.sqoop.SqoopOptions.InvalidOptionsException {
+  public void testFtpTransferModeBinary() throws ParseException, InvalidOptionsException {
     String[] args = new String[] { "--dataset", "mydatasetname", "--as-binaryfile" };
     configureAndValidateOptions(args);
     assertEquals(SqoopOptions.FileLayout.BinaryFile,sqoopOption.getFileLayout());
   }
   @Test
-  public void testFtpTransferModeDefaultsToAscii() throws ParseException, org.apache.sqoop.SqoopOptions.InvalidOptionsException {
+  public void testFtpTransferModeDefaultsToAscii() throws ParseException, InvalidOptionsException {
     String[] args = new String[] { "--dataset", "mydatasetname" };
     configureAndValidateOptions(args);
     assertEquals(SqoopOptions.FileLayout.TextFile,sqoopOption.getFileLayout());
@@ -244,7 +239,7 @@ public class TestMainframeImportTool extends BaseSqoopTestCase {
     configureAndValidateOptions(args);
   }
 
-  private void configureAndValidateOptions(String[] args) throws ParseException, SqoopOptions.InvalidOptionsException {
+  private void configureAndValidateOptions(String[] args) throws ParseException, InvalidOptionsException {
     mfImportTool.configureOptions(toolOptions);
     sqoopOption = mfImportTool.parseArguments(args, null, sqoopOption, false);
     mfImportTool.validateImportOptions(sqoopOption);
