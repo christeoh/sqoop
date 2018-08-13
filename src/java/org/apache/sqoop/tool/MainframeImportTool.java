@@ -41,7 +41,6 @@ public class MainframeImportTool extends ImportTool {
   public static final String DS_ARG = "dataset";
   public static final String DS_TYPE_ARG = "datasettype";
   public static final String DS_TAPE_ARG = "tape";
-  public static final String BINARY_FTP_ARG = "as-binaryfile";
   public static final String BUFFERSIZE_ARG = "buffersize";
 
   public MainframeImportTool() {

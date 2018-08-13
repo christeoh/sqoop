@@ -974,10 +974,6 @@ public class ImportTool extends BaseSqoopTool {
         out.setFileLayout(SqoopOptions.FileLayout.ParquetFile);
       }
 
-      if (in.hasOption(FMT_BINARYFILE_ARG)) {
-        out.setFileLayout(SqoopOptions.FileLayout.BinaryFile);
-      }
-
       if (in.hasOption(NUM_MAPPERS_ARG)) {
         out.setNumMappers(Integer.parseInt(in.getOptionValue(NUM_MAPPERS_ARG)));
       }
