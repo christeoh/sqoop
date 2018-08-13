@@ -192,12 +192,6 @@ public class TestMainframeImportTool extends BaseSqoopTestCase {
     assertEquals(SqoopOptions.FileLayout.TextFile,sqoopOption.getFileLayout());
   }
   @Test
-  public void testFtpTransferModeBinary() throws ParseException, InvalidOptionsException {
-    String[] args = new String[] { "--dataset", "mydatasetname", "--as-binaryfile" };
-    configureAndValidateOptions(args);
-    assertEquals(SqoopOptions.FileLayout.BinaryFile,sqoopOption.getFileLayout());
-  }
-  @Test
   public void testFtpTransferModeDefaultsToAscii() throws ParseException, InvalidOptionsException {
     String[] args = new String[] { "--dataset", "mydatasetname" };
     configureAndValidateOptions(args);
