@@ -32,9 +32,6 @@ import java.io.IOException;
 public abstract class AbstractMainframeDatasetImportMapper<KEY>
   extends AutoProgressMapper<LongWritable, SqoopRecord, KEY, NullWritable> {
 
-  private static final Log LOG = LogFactory.getLog(
-    AbstractMainframeDatasetImportMapper.class.getName());
-
   private MainframeDatasetInputSplit inputSplit;
   private MultipleOutputs<KEY, NullWritable> mos;
   private long numberOfRecords;
