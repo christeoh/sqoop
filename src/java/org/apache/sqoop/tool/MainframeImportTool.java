@@ -189,10 +189,16 @@ public class MainframeImportTool extends ImportTool {
 
     if (in.hasOption(BUFFERSIZE_ARG)) {
       // if we specify --buffersize set the buffer size
-      out.setBufferSize(in.getOptionValue(BUFFERSIZE_ARG));
+      int bufSize = Integer.valueOf(in.getOptionValue(BUFFERSIZE_ARG));
+      if (bufSize > 0) {
+        out.setBufferSize(bufSize);
+      }
+      else {
+        out.setBufferSize(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE);
+      }
     } else {
       // set the default buffer size to 32kB
-      out.setBufferSize(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.toString());
+      out.setBufferSize(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE);
     }
   }
 

@@ -2525,13 +2525,8 @@ public class SqoopOptions implements Cloneable {
   }
 
   // sets the binary transfer buffer size, defaults to MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE
-  public void setBufferSize(String buf) {
-    if (StringUtils.isEmpty(buf)) {
-      bufferSize = MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE;
-    }
-    else {
-      bufferSize = Integer.valueOf(buf);
-    }
+  public void setBufferSize(int buf) {
+    bufferSize = buf;
   }
 
   public static String getAccumuloHomeDefault() {
