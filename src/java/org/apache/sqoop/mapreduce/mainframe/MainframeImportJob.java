@@ -74,7 +74,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
     job.getConfiguration().set(
             MainframeConfiguration.MAINFRAME_INPUT_DATASET_TAPE,
             options.getMainframeInputDatasetTape().toString());
-    if (SqoopOptions.FileLayout.BinaryFile.equals(options.getFileLayout())) {
+    if (SqoopOptions.FileLayout.BinaryFile == options.getFileLayout()) {
       job.getConfiguration().set(
         MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE,
         MainframeConfiguration.MAINFRAME_FTP_TRANSFER_MODE_BINARY);
@@ -105,7 +105,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
   protected void configureMapper(Job job, String tableName,
       String tableClassName) throws IOException {
     super.configureMapper(job, tableName, tableClassName);
-    if (SqoopOptions.FileLayout.BinaryFile.equals(options.getFileLayout())) {
+    if (SqoopOptions.FileLayout.BinaryFile == options.getFileLayout()) {
       job.setOutputKeyClass(BytesWritable.class);
       job.setOutputValueClass(NullWritable.class);
 
@@ -119,8 +119,7 @@ public class MainframeImportJob extends DataDrivenImportJob {
   }
 
   @Override
-  protected Class<? extends OutputFormat> getOutputFormatClass()
-      throws ClassNotFoundException {
+  protected Class<? extends OutputFormat> getOutputFormatClass() {
     if (options.getFileLayout() == SqoopOptions.FileLayout.TextFile) {
       return RawKeyTextOutputFormat.class;
     } else if (options.getFileLayout()
