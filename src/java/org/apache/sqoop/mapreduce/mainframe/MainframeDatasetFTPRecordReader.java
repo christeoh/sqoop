@@ -53,13 +53,11 @@ public class MainframeDatasetFTPRecordReader <T extends SqoopRecord>
 
     Configuration conf = getConfiguration();
     ftp = MainframeFTPClientUtils.getFTPConnection(conf);
-    initialize(inputSplit,taskAttemptContext,ftp,conf);
+    initialize(ftp,conf);
   }
 
-  public void initialize(InputSplit inputSplit,
-       TaskAttemptContext taskAttemptContext,
-       FTPClient ftpClient, Configuration conf)
-    throws IOException, InterruptedException {
+  public void initialize(FTPClient ftpClient, Configuration conf)
+    throws IOException {
     ftp = ftpClient;
     if (ftp != null) {
       String dsName = conf.get(MainframeConfiguration.MAINFRAME_INPUT_DATASET_NAME);

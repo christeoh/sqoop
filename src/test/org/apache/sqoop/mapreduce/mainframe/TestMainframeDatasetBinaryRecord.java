@@ -68,7 +68,7 @@ public class TestMainframeDatasetBinaryRecord {
     conf.set(MainframeConfiguration.MAINFRAME_INPUT_DATASET_NAME,DATASET_NAME);
     conf.set(MainframeConfiguration.MAINFRAME_INPUT_DATASET_TYPE,DATASET_TYPE);
     conf.setInt(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_BUFFER_SIZE,MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE);
-    mfDFTPRR.initialize(split, context, ftp, conf);
+    mfDFTPRR.initialize(ftp, conf);
   }
 
   // Mock the inputstream.read method and manipulate the function parameters
