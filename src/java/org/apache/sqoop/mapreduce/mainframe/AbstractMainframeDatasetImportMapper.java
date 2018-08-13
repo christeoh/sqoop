@@ -18,8 +18,6 @@
 
 package org.apache.sqoop.mapreduce.mainframe;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
@@ -33,14 +31,14 @@ public abstract class AbstractMainframeDatasetImportMapper<KEY>
   extends AutoProgressMapper<LongWritable, SqoopRecord, KEY, NullWritable> {
 
   private MainframeDatasetInputSplit inputSplit;
-  private MultipleOutputs<KEY, NullWritable> mos;
+  private MultipleOutputs<KEY, NullWritable> multiFileWriter;
   private long numberOfRecords;
 
   public void map(LongWritable key,  SqoopRecord val, Context context)
     throws IOException, InterruptedException {
     String dataset = inputSplit.getCurrentDataset();
     numberOfRecords++;
-    mos.write(createOutKey(val), NullWritable.get(), dataset);
+    multiFileWriter.write(createOutKey(val), NullWritable.get(), dataset);
   }
 
   @Override
@@ -48,7 +46,7 @@ public abstract class AbstractMainframeDatasetImportMapper<KEY>
     throws IOException, InterruptedException {
     super.setup(context);
     inputSplit = (MainframeDatasetInputSplit)context.getInputSplit();
-    mos = new MultipleOutputs<>(context);
+    multiFileWriter = new MultipleOutputs<>(context);
     numberOfRecords = 0;
   }
 
@@ -56,7 +54,7 @@ public abstract class AbstractMainframeDatasetImportMapper<KEY>
   protected void cleanup(Context context)
     throws IOException, InterruptedException {
     super.cleanup(context);
-    mos.close();
+    multiFileWriter.close();
     context.getCounter(
       ConfigurationConstants.COUNTER_GROUP_MAPRED_TASK_COUNTERS,
       ConfigurationConstants.COUNTER_MAP_OUTPUT_RECORDS)
