@@ -37,7 +37,7 @@ import org.apache.hadoop.util.*;
  */
 public class RawKeyTextOutputFormat<K, V> extends FileOutputFormat<K, V> {
 
-  public FSDataOutputStream getFSDataOutputStream(TaskAttemptContext context, String ext) throws IOException {
+  protected FSDataOutputStream getFSDataOutputStream(TaskAttemptContext context, String ext) throws IOException {
     Configuration conf = context.getConfiguration();
     Path file = getDefaultWorkFile(context, ext);
     FileSystem fs = file.getFileSystem(conf);
@@ -45,7 +45,7 @@ public class RawKeyTextOutputFormat<K, V> extends FileOutputFormat<K, V> {
     return fileOut;
   }
 
-  public DataOutputStream getOutputStream(TaskAttemptContext context) throws IOException {
+  protected DataOutputStream getOutputStream(TaskAttemptContext context) throws IOException {
     boolean isCompressed = getCompressOutput(context);
     Configuration conf = context.getConfiguration();
     String ext = "";
