@@ -26,13 +26,13 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class KeyRecordWriters<K,V> {
+public class KeyRecordWriters {
   /**
    * RecordWriter to write to plain text files.
    */
 
   public static class GenericRecordWriter<K, V> extends RecordWriter<K, V> {
-    protected static final String UTF8 = "UTF-8";
+    private static final String UTF8 = "UTF-8";
 
     protected DataOutputStream out;
 
@@ -54,12 +54,12 @@ public class KeyRecordWriters<K,V> {
     }
 
     @Override
-    public void write(K key, V value) throws IOException, InterruptedException {
+    public synchronized void write(K key, V value) throws IOException, InterruptedException {
       writeObject(key,value);
     }
 
     @Override
-    public void close(TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException {
+    public synchronized void close(TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException {
         out.close();
     }
   }
