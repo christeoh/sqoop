@@ -19,8 +19,6 @@ package org.apache.sqoop.mapreduce.mainframe;
 
 import org.apache.sqoop.lib.DelimiterSet;
 import org.apache.sqoop.lib.LargeObjectLoader;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.Text;
 import org.apache.sqoop.lib.SqoopRecord;
 
@@ -38,8 +36,6 @@ import java.util.Map;
 public class MainframeDatasetBinaryRecord extends SqoopRecord {
 
   private byte[] field;
-  private static final Log LOG = LogFactory.getLog(
-    MainframeDatasetBinaryRecord.class.getName());
 
   public Map<String, Object> getFieldMap() {
     Map<String, Object> map = new HashMap<String, Object>();
