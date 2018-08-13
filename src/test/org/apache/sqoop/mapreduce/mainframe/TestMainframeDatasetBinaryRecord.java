@@ -40,21 +40,21 @@ import static org.mockito.Mockito.doReturn;
 
 public class TestMainframeDatasetBinaryRecord {
 
-  private MainframeDatasetFTPRecordReader mfDFTPRR;
+  private MainframeDatasetFTPRecordReader ftpRecordReader;
   private InputStream is;
   private FTPClient ftp;
-  private Configuration conf;
-  private MainframeDatasetInputSplit split;
-  private TaskAttemptContext context;
-  final String DATASET_NAME = "dummy.ds";
-  final String DATASET_TYPE = "g";
+  private final String DATASET_NAME = "dummy.ds";
+  private final String DATASET_TYPE = "g";
   private static final Log LOG = LogFactory.getLog(
       TestMainframeDatasetBinaryRecord.class.getName());
 
   @Before
   public void setUp() throws IOException, InterruptedException {
     MainframeDatasetFTPRecordReader rdr = new MainframeDatasetFTPRecordReader();
-    mfDFTPRR = spy(rdr);
+    Configuration conf;
+    MainframeDatasetInputSplit split;
+    TaskAttemptContext context;
+    ftpRecordReader = spy(rdr);
     is = mock(InputStream.class);
     ftp = mock(FTPClient.class);
     split = mock(MainframeDatasetInputSplit.class);
@@ -62,23 +62,19 @@ public class TestMainframeDatasetBinaryRecord {
     conf = new Configuration();
     when(ftp.retrieveFileStream(any(String.class))).thenReturn(is);
     when(ftp.changeWorkingDirectory(any(String.class))).thenReturn(true);
-    doReturn("file1").when(mfDFTPRR).getNextDataset();
-    when(split.getNextDataset()).thenReturn("dummy.ds");
-    when(mfDFTPRR.getNextDataset()).thenReturn("dummy.ds");
+    doReturn("file1").when(ftpRecordReader).getNextDataset();
+    when(split.getNextDataset()).thenReturn(DATASET_NAME);
+    when(ftpRecordReader.getNextDataset()).thenReturn(DATASET_NAME);
     conf.set(MainframeConfiguration.MAINFRAME_INPUT_DATASET_NAME,DATASET_NAME);
     conf.set(MainframeConfiguration.MAINFRAME_INPUT_DATASET_TYPE,DATASET_TYPE);
     conf.setInt(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_BUFFER_SIZE,MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE);
-    mfDFTPRR.initialize(ftp, conf);
+    ftpRecordReader.initialize(ftp, conf);
   }
 
   // Mock the inputstream.read method and manipulate the function parameters
   protected Answer returnSqoopRecord(final int byteLength) {
     return new Answer() {
       public Object answer(InvocationOnMock invocation) {
-        Object[] args = invocation.getArguments();
-        byte[] bytes = args[0] instanceof byte[] ? ((byte[]) args[0]) : null;
-        int len = args[2] instanceof Integer ? ((int) args[2]) : null;
-        bytes = new byte[byteLength];
         return byteLength;
       }
     };
@@ -93,9 +89,9 @@ public class TestMainframeDatasetBinaryRecord {
         .thenAnswer(returnSqoopRecord(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE))
         .thenReturn(-1);
       when(ftp.completePendingCommand()).thenReturn(true);
-      Assert.assertTrue(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertTrue(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertFalse(record.getFieldMap().values().isEmpty());
-      Assert.assertTrue(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.equals(((byte[])record.getFieldMap().values().iterator().next()).length));
+      Assert.assertEquals(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.intValue(),((byte[])record.getFieldMap().values().iterator().next()).length);
     } catch (IOException ioe) {
       LOG.error("Issue with reading 1 full binary buffer record", ioe);
       throw new RuntimeException(ioe);
@@ -111,7 +107,7 @@ public class TestMainframeDatasetBinaryRecord {
         .thenAnswer(returnSqoopRecord(10))
         .thenReturn(-1);
       when(ftp.completePendingCommand()).thenReturn(true);
-      Assert.assertTrue(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertTrue(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertFalse(record.getFieldMap().values().isEmpty());
       Assert.assertEquals(expectedBytesRead,(((byte[])record.getFieldMap().values().iterator().next()).length));
     } catch (IOException ioe) {
@@ -131,11 +127,11 @@ public class TestMainframeDatasetBinaryRecord {
         .thenAnswer(returnSqoopRecord(10))
         .thenReturn(-1);
       when(ftp.completePendingCommand()).thenReturn(true);
-      Assert.assertTrue(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertTrue(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertFalse(record.getFieldMap().values().isEmpty());
       Assert.assertTrue(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.equals((((byte[])record.getFieldMap().values().iterator().next()).length)));
       record = new MainframeDatasetBinaryRecord();
-      Assert.assertTrue(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertTrue(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertFalse(record.getFieldMap().values().isEmpty());
       Assert.assertEquals(expectedBytesRead,(((byte[])record.getFieldMap().values().iterator().next()).length));
     } catch (IOException ioe) {
@@ -154,11 +150,11 @@ public class TestMainframeDatasetBinaryRecord {
         .thenAnswer(returnSqoopRecord(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE /2))
         .thenReturn(-1);
       when(ftp.completePendingCommand()).thenReturn(true);
-      Assert.assertTrue(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertTrue(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertFalse(record.getFieldMap().values().isEmpty());
-      Assert.assertTrue(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.equals((((byte[])record.getFieldMap().values().iterator().next()).length)));
+      Assert.assertEquals(MainframeConfiguration.MAINFRAME_FTP_TRANSFER_BINARY_DEFAULT_BUFFER_SIZE.intValue(),((byte[])record.getFieldMap().values().iterator().next()).length);
       record = new MainframeDatasetBinaryRecord();
-      Assert.assertFalse(mfDFTPRR.getNextBinaryRecord(record));
+      Assert.assertFalse(ftpRecordReader.getNextBinaryRecord(record));
       Assert.assertNull((((byte[])record.getFieldMap().values().iterator().next())));
     } catch (IOException ioe) {
       LOG.error("Issue with verifying reading partial buffer binary records", ioe);
