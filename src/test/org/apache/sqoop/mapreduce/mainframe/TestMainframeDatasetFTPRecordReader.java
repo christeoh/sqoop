@@ -43,8 +43,8 @@ import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.sqoop.lib.SqoopRecord;
-import org.apache.sqoop.lib.DelimiterSet;
-import org.apache.sqoop.lib.LargeObjectLoader;
+
+
 import org.apache.sqoop.mapreduce.DBWritable;
 import org.apache.sqoop.mapreduce.db.DBConfiguration;
 import org.apache.sqoop.util.MainframeFTPClientUtils;
@@ -52,6 +52,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.apache.sqoop.lib.DelimiterSet;
+import org.apache.sqoop.lib.LargeObjectLoader;
 
 public class TestMainframeDatasetFTPRecordReader {
 
