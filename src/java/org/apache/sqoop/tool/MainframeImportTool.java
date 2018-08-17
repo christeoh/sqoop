@@ -73,6 +73,7 @@ public class MainframeImportTool extends ImportTool {
     		.hasArg().withDescription("Dataset is on tape (true|false)")
     		.withLongOpt(DS_TAPE_ARG)
     		.create());
+
     addValidationOpts(importOpts);
 
     importOpts.addOption(OptionBuilder.withArgName("dir")
